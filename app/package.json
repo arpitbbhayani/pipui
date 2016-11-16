@@ -1,0 +1,15 @@
+{
+  "name": "pipui",
+  "productName": "pipui",
+  "version": "0.0.1",
+  "description": "User interface for Python packages using PIP",
+  "main": "./main.js",
+  "author": {
+    "name": "Arpit Bhayani",
+    "email": "arpit.b.bhayani@gmail.com",
+    "url": "http://arpitbhayani.me"
+  },
+  "license": "MIT",
+  "dependencies": {
+  }
+}
