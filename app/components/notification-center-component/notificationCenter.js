@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import Notification from '../notification-component/Notification';
-import { addNotificationAction } from '../../actions/notificationCenter';
+import { addNotificationAction, removeNotificationAction } from '../../actions/notificationCenter';
 
 
 class NotificationCenter extends Component {
@@ -13,33 +13,39 @@ class NotificationCenter extends Component {
     const self = this;
 
     self.addNotificationMessage = self.addNotificationMessage.bind(self);
+    self.removeNotificationMessage = self.removeNotificationMessage.bind(self);
   }
 
   addNotificationMessage() {
     const self = this;
-    self.context.store.dispatch(addNotificationAction("Message"));
-    console.log(self.context.store.getState());
+    self.context.store.dispatch(addNotificationAction({
+      message: "message " + Date(),
+      id: Date.now()
+    }));
+  }
+
+  removeNotificationMessage(messageId) {
+    const self = this;
+    self.context.store.dispatch(removeNotificationAction(messageId));
   }
 
   render() {
     const self = this;
-
     var notifications = self.context.store.getState().notificationCenter;
-    console.log("Notification:-", notifications);
-
 
     return (
       <div>
+        <button onClick={self.addNotificationMessage}>Add sample</button>
         {
           notifications.map((notification, i) => {
             return (
               <Notification
-                key={i} message={notification}>
+                key={notification.id} message={notification.message} id={notification.id}
+                removeNotification={self.removeNotificationMessage.bind(null, notification.id)}>
               </Notification>
             );
           })
         }
-        <button onClick={self.addNotificationMessage}>Add sample</button>
       </div>
     );
   }

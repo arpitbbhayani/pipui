@@ -12,7 +12,7 @@ export default class Notification extends Component {
     const self = this;
     return (
       <div>
-        <div className="ui label">
+        <div id={this.props.id} className="ui label" onClick={this.props.removeNotification}>
           {this.props.message}
         </div>
       </div>
