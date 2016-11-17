@@ -6,6 +6,8 @@ import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
 import appStore from './store/configureStore';
+import { createAppFolder } from './api/app';
+import { saveSettingsAPI, configBoilerplate } from './api/settings';
 import './app.global.css';
 
 
@@ -14,6 +16,14 @@ export default class MainContainer extends React.Component {
     super();
     this.appStore = appStore;
     this.state = this.appStore.getState();
+
+    this.initialize = this.initialize.bind(this);
+    this.initialize();
+  }
+
+  initialize() {
+    createAppFolder();
+    saveSettingsAPI(configBoilerplate, ()=>{});
   }
 
   render() {
