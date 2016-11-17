@@ -1,4 +1,3 @@
-// @flow
 import { SAVE_SETTINGS } from '../actions/settings';
 
 export default function settings(state: Object = {

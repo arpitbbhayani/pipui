@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import NotificationCenter from '../notification-center-component/notificationCenter';
-
 
 class Home extends Component {
   constructor() {
@@ -16,9 +14,6 @@ class Home extends Component {
         <div>
           <h2>Home</h2>
           <Link to="/settings">Settings</Link>
-        </div>
-        <div className="notification-center">
-          <NotificationCenter></NotificationCenter>
         </div>
       </div>
     );

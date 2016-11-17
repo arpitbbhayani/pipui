@@ -3,7 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import { saveSettings } from '../../actions/settings';
+import { saveSettingsAction } from '../../actions/settings';
+import { saveSettingsAPI } from '../../api/settings';
+import { addNotificationAction } from '../../actions/notificationCenter';
 
 
 class Settings extends Component {
@@ -26,7 +28,21 @@ class Settings extends Component {
 
   saveSettings() {
     const self = this;
-    saveSettings(self.localCache);
+    saveSettingsAPI(self.localCache, function(err, resp) {
+      if(err) {
+        self.context.store.dispatch(addNotificationAction({
+          message: err,
+          id: Date.now()
+        }));
+        return;
+      }
+
+      self.context.store.dispatch(addNotificationAction({
+        message: resp,
+        id: Date.now()
+      }));
+      self.context.store.dispatch(saveSettingsAction(self.localCache));
+    });
   }
 
   constructor(props) {

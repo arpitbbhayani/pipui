@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import NotificationCenter from '../notification-center-component/notificationCenter';
 
 
 export default class App extends Component {
@@ -10,6 +11,9 @@ export default class App extends Component {
     return (
       <div>
         {this.props.children}
+        <div className="notification-center">
+          <NotificationCenter></NotificationCenter>
+        </div>
       </div>
     );
   }

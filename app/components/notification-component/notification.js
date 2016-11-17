@@ -5,7 +5,9 @@ import { Link } from 'react-router';
 export default class Notification extends Component {
 
   static propTypes = {
-    message: PropTypes.string.isRequired
+    message: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    removeNotification: PropTypes.func.isRequired
   };
 
   render() {
