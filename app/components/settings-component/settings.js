@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { Button, Form } from 'semantic-ui-react';
 
 import { saveSettingsAction } from '../../actions/settings';
 import { saveSettingsAPI } from '../../api/settings';
@@ -10,25 +11,16 @@ import { addNotificationAction } from '../../actions/notificationCenter';
 
 class Settings extends Component {
 
-  changeVenvPath(e) {
-    const self = this;
-    self.localCache = {
-      ...self.localCache,
-      venvPath: e.target.value
-    }
-  };
+  saveSettings(e, serializedForm) {
+    e.preventDefault();
 
-  changeRequirementsFile(e) {
-    const self = this;
-    self.localCache = {
-      ...self.localCache,
-      requirementsFile: e.target.value
-    }
-  };
+    let localSettings = {
+      requirementsFile: serializedForm.requirementsFile,
+      venvPath: serializedForm.venvPath
+    };
 
-  saveSettings() {
     const self = this;
-    saveSettingsAPI(self.localCache, function(err, resp) {
+    saveSettingsAPI(localSettings, function(err, resp) {
       if(err) {
         self.context.store.dispatch(addNotificationAction({
           message: err,
@@ -41,22 +33,14 @@ class Settings extends Component {
         message: resp,
         id: Date.now()
       }));
-      self.context.store.dispatch(saveSettingsAction(self.localCache));
+      self.context.store.dispatch(saveSettingsAction(localSettings));
     });
   }
 
   constructor(props) {
     super(props);
     const self = this;
-
-    self.localCache = {
-      venvPath: null,
-      requirementsFile: null
-    }
-
     self.saveSettings = self.saveSettings.bind(self);
-    self.changeRequirementsFile = self.changeRequirementsFile.bind(self);
-    self.changeVenvPath = self.changeVenvPath.bind(self);
   }
 
   render() {
@@ -67,19 +51,18 @@ class Settings extends Component {
         <div className="ui header">
           Settings Page
         </div>
-        <div className="ui form">
-          <div className="ui field">
+
+        <Form onSubmit={self.saveSettings}>
+          <Form.Field>
             <label>Virtual Environment Path</label>
-            <input type="text" placeholder="Virtual environment path" onChange={self.changeVenvPath}></input>
-          </div>
-          <div className="ui field">
+            <input type="text" name="venvPath" placeholder="Virtual environment path"></input>
+          </Form.Field>
+          <Form.Field>
             <label>Requirements File Path</label>
-            <input type="text" name="requirements_file" onChange={self.changeRequirementsFile}></input>
-          </div>
-          <div className="ui field">
-            <button className="ui button" onClick={self.saveSettings}>Save Settings</button>
-          </div>
-        </div>
+            <input type="text" name="requirementsFile" placeholder="Requirements File path"></input>
+          </Form.Field>
+          <Button primary type='submit'>Submit</Button>
+        </Form>
       </div>
     );
   }
