@@ -5,15 +5,34 @@ import { Provider } from 'react-redux';
 import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
-import configureStore from './store/configureStore';
+import appStore from './store/configureStore';
 import './app.global.css';
 
-const store = configureStore();
-const history = syncHistoryWithStore(hashHistory, store);
+
+export default class MainContainer extends React.Component {
+  constructor() {
+    super();
+    this.appStore = appStore;
+    this.state = this.appStore.getState();
+  }
+
+  render() {
+    const self = this;
+    const history = syncHistoryWithStore(hashHistory, self.appStore);
+    return (
+      <div>
+        <Provider store={self.appStore}>
+          <Router history={history}>
+            {routes}
+          </Router>
+        </Provider>,
+      </div>
+    );
+  }
+}
+
 
 render(
-  <Provider store={store}>
-    <Router history={history} routes={routes} />
-  </Provider>,
+  <MainContainer />,
   document.getElementById('root')
 );

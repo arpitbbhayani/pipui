@@ -1,13 +1,12 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+
+import { saveSettings } from '../../actions/settings';
 
 
-export default class Settings extends Component {
-
-  static propTypes = {
-    saveSettings: PropTypes.func.isRequired
-  };
+class Settings extends Component {
 
   changeVenvPath(e) {
     const self = this;
@@ -27,7 +26,7 @@ export default class Settings extends Component {
 
   saveSettings() {
     const self = this;
-    self.props.saveSettings(self.localCache);
+    saveSettings(self.localCache);
   }
 
   constructor(props) {
@@ -46,7 +45,6 @@ export default class Settings extends Component {
 
   render() {
     const self = this;
-
     return (
       <div>
         <Link to="/">Home</Link>
@@ -70,3 +68,18 @@ export default class Settings extends Component {
     );
   }
 }
+
+Settings.contextTypes = {
+  store: React.PropTypes.object,
+};
+
+// connect to Redux store
+const mapStateToProps = function(state) {
+  return {
+    requirementsFile: state.requirementsFile,
+    venvPath: state.venvPath
+  };
+};
+
+Settings = connect(mapStateToProps)(Settings);
+export default Settings;

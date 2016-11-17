@@ -13,11 +13,9 @@ module.exports = {
   // remove the following files as they are mostly
   // related to the sample counter page and functionality
   remove: [
-    { file: 'app/actions/counter.js' },
     { file: 'app/components/Counter.css' },
     { file: 'app/components/Counter.js' },
     { file: 'app/containers/CounterPage.js' },
-    { file: 'app/reducers/counter.js' },
     { file: 'test/actions/counter.spec.js' },
     { file: 'test/components/Counter.spec.js' },
     { file: 'test/containers/CounterPage.spec.js' },
