@@ -30,14 +30,16 @@ class Settings extends Component {
       if(err) {
         self.theStore.dispatch(addNotificationAction({
           message: err,
-          id: Date.now()
+          id: Date.now(),
+          type: -1,
         }));
         return;
       }
 
       self.theStore.dispatch(addNotificationAction({
         message: resp,
-        id: Date.now()
+        id: Date.now(),
+        type: 1,
       }));
       self.theStore.dispatch(saveSettingsAction(self.state));
     });
