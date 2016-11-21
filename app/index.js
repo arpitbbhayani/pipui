@@ -7,7 +7,6 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
 import appStore from './store/configureStore';
 import { createAppFolder } from './api/app';
-import { saveSettingsAPI, configBoilerplate } from './api/settings';
 import './app.global.css';
 
 
@@ -23,7 +22,6 @@ export default class MainContainer extends React.Component {
 
   initialize() {
     createAppFolder();
-    saveSettingsAPI(configBoilerplate, ()=>{});
   }
 
   render() {

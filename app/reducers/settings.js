@@ -1,8 +1,8 @@
 import { SAVE_SETTINGS } from '../actions/settings';
 
 export default function settings(state: Object = {
-                                    venvPath: null,
-                                    requirementsFile: null
+                                    venvPath: '',
+                                    requirementsFile: ''
                                 }, action: Object) {
 
   switch (action.type) {

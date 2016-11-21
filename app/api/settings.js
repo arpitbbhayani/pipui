@@ -8,7 +8,7 @@ const configBoilerplate = {
   venvPath: null
 };
 
-function saveSettingsAPI(settings, callback) {
+function saveSettingsAPI(settings: Object, callback: Function) {
   let configFilePath = path.join(CONFIG.appDirectory, CONFIG.configFileName);
   jsonfile.writeFile(configFilePath, settings, {spaces: 4}, function (err) {
     let errStr = err ? err.toString() : null;
@@ -16,7 +16,7 @@ function saveSettingsAPI(settings, callback) {
   });
 }
 
-function readSettingsAPI(callback) {
+function readSettingsAPI(callback: Function) {
   let configFilePath = path.join(CONFIG.appDirectory, CONFIG.configFileName);
   jsonfile.readFile(configFilePath, function(err, obj) {
     let errStr = err ? err.toString() : null;
@@ -26,5 +26,6 @@ function readSettingsAPI(callback) {
 
 module.exports = {
   saveSettingsAPI: saveSettingsAPI,
-  configBoilerplate: configBoilerplate
+  configBoilerplate: configBoilerplate,
+  readSettingsAPI: readSettingsAPI
 }
