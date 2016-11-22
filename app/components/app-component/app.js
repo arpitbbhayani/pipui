@@ -11,7 +11,7 @@ export default class App extends Component {
     return (
       <div>
         {this.props.children}
-        <div className="notification-center">
+        <div>
           <NotificationCenter></NotificationCenter>
         </div>
       </div>
