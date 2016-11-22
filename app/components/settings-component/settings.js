@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Checkbox } from 'semantic-ui-react';
 
 import { saveSettingsAction } from '../../actions/settings';
 import { saveSettingsAPI, readSettingsAPI } from '../../api/settings';
@@ -23,7 +23,7 @@ class Settings extends Component {
     });
   }
 
-  saveSettings(e, serializedForm) {
+  saveSettings(e) {
     e.preventDefault();
     const self = this;
     saveSettingsAPI(self.state, function(err, resp) {
@@ -59,17 +59,29 @@ class Settings extends Component {
     });
   }
 
+  updateUseLocal(e, details) {
+    e.preventDefault();
+    const self = this;
+    const {name, value, checked} = details;
+
+    self.setState({
+      useLocalVenv: checked
+    })
+  }
+
   constructor(props) {
     super(props);
     const self = this;
     self.state = {
       venvPath: '',
       requirementsFile: '',
+      useLocalVenv: false
     };
     self.saveSettings = self.saveSettings.bind(self);
     self.readSettings = self.readSettings.bind(self);
     self.updateVenvPath = self.updateVenvPath.bind(self);
     self.updateRequirementsFile = self.updateRequirementsFile.bind(self);
+    self.updateUseLocal = self.updateUseLocal.bind(self);
   }
 
   componentWillMount() {
@@ -84,6 +96,7 @@ class Settings extends Component {
     self.setState({
       venvPath: self.props.venvPath,
       requirementsFile: self.props.requirementsFile,
+      useLocalVenv: self.props.useLocalVenv,
     });
   }
 
@@ -97,29 +110,41 @@ class Settings extends Component {
           Settings Page
         </div>
 
-        <Form onSubmit={self.saveSettings}>
-          <Form.Field>
-            <label>Virtual Environment Path</label>
-            <input
-              type="text"
-              name="venvPath"
-              placeholder="Virtual environment path"
-              value={self.state.venvPath}
-              onChange={self.updateVenvPath}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Requirements File Path</label>
-            <input
-              type="text"
-              name="requirementsFile"
-              placeholder="Requirements file path"
-              value={self.state.requirementsFile}
-              onChange={self.updateRequirementsFile}
-            />
-          </Form.Field>
-          <Button primary type='submit'>Submit</Button>
-        </Form>
+        <Checkbox
+          label='Use a local virtual environment'
+          name='useLocalVenv'
+          checked={self.state.useLocalVenv}
+          onChange={self.updateUseLocal}/>
+
+        {self.state.useLocalVenv ?
+          <Form>
+            <Form.Field>
+              <label>Virtual Environment Path</label>
+              <input
+                type="text"
+                name="venvPath"
+                placeholder="Virtual environment path"
+                value={self.state.venvPath}
+                onChange={self.updateVenvPath}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Requirements File Path</label>
+              <input
+                type="text"
+                name="requirementsFile"
+                placeholder="Requirements file path"
+                value={self.state.requirementsFile}
+                onChange={self.updateRequirementsFile}
+              />
+            </Form.Field>
+          </Form>
+          :
+          <div></div>
+        }
+
+        <button
+          onClick={self.saveSettings}>Save Settings</button>
       </div>
     );
   }
@@ -134,6 +159,7 @@ const mapStateToProps = function(state) {
   return {
     venvPath: state.settings.venvPath,
     requirementsFile: state.settings.requirementsFile,
+    useLocalVenv: state.settings.useLocalVenv,
   };
 };
 
